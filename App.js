@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 
-import Home from './app/components/Home/Home';
+// import Home from './app/components/Home/Home';
+import NavigateComponent from './app/components/NavigateComponent/NavigateComponent';
 
 export default class App extends Component {
   render() {
     return (
-      <View>
-        <Home />
-      </View>
+      <NavigateComponent />
     );
   }
 }
