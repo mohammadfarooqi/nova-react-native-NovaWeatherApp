@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, TouchableHighlight, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableHighlight } from 'react-native';
+
+import DetailWeatherLocation from '../DetailWeatherLocation/DetailWeatherLocation';
 
 export default class ListWeatherLocation extends Component {
   constructor(props) {
     super(props);
+
+    // console.log(props);
 
     this.state = {
       locationsData: []
@@ -25,7 +29,12 @@ export default class ListWeatherLocation extends Component {
   }
 
   navigateToDetails(data) {
-    Alert.alert('Error', data.name);            
+    // console.log('navigateToDetails ', data);
+    this.props.navigator.push({
+      component: DetailWeatherLocation,
+      passProps: {data},
+      title: 'Detail For City'
+    });
   }
 
   render() {
@@ -35,12 +44,12 @@ export default class ListWeatherLocation extends Component {
             data={this.state.locationsData}
             keyExtractor={(x, i) => i}
             renderItem={({item}) => (
-              <TouchableHighlight onPress={this.navigateToDetails.bind(this, item)}>
+              <TouchableHighlight onPress={this.navigateToDetails.bind(this, item.detail)}>
                 <View style={{borderBottomColor: '#bbb', borderBottomWidth: StyleSheet.hairlineWidth}}>
-                  <Text style={styles.title}>{item.name}</Text>
-                  <Text style={styles.body}>Temperature: {item.main.temp}</Text>
+                  <Text style={styles.title}>{item.overview.name}</Text>
+                  <Text style={styles.body}>Temperature: {item.overview.main.temp}</Text>
                   <View style={{flex: 1, flexDirection: 'row'}}>
-                    {item.weather.map((data, idx) => (
+                    {item.overview.weather.map((data, idx) => (
                       <View key={idx}>{this.renderIcon(data)}</View>
                     ))}
                   </View>
@@ -58,7 +67,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: 10,
     marginRight: 10,
-    height: '90%' 
+    height: '82%' 
   },
   title: {
     fontWeight: "700",
